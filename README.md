@@ -1,87 +1,135 @@
 # Key Management Android App
 
-Ứng dụng Android quản lý Key (License) cho hệ thống Panel, được viết bằng ngôn ngữ **Kotlin** và sử dụng các thư viện hiện đại của Android.
+Android application for managing Keys (Licenses) for the Panel system, written in **Kotlin** and using modern Android libraries.
 
-## 🛠 Công nghệ sử dụng
+## 🛠 Tech Stack
 
-*   **Ngôn ngữ**: Kotlin
-*   **Giao diện (UI)**: XML Layouts, Material Design 3 (Theme Rosé Pine)
-*   **Mạng (Networking)**: Retrofit 2, OkHttp 3
-*   **Xử lý dữ liệu**: Gson (JSON Parsing)
-*   **Bất đồng bộ**: Kotlin Coroutines
-*   **Lưu trữ**: SharedPreferences (Session Management)
-*   **Kiến trúc**: MVVM-like (Activity + Repository pattern simplication), BaseActivity architecture.
-
----
-
-## 📂 Tổ chức mã nguồn (`app/src/main/java/com/panel/keymanager`)
-
-Mã nguồn được tổ chức theo các package chức năng để dễ dàng bảo trì và mở rộng:
-
-### 1. `api` (Kết nối mạng)
-Chứa các lớp liên quan đến việc gọi API lên server.
-*   **`ApiService.kt`**: Interface định nghĩa các endpoint (đường dẫn) API như `/login`, `/keys`, `/keys/generate`, v.v.
-*   **`RetrofitClient.kt`**: Singleton khởi tạo Retrofit. Cấu hình `OkHttpClient` với các Interceptor (để thêm Header Authorization) và `TokenAuthenticator` (để tự động refresh token).
-*   **`TokenAuthenticator.kt`**: Cơ chế tự động xử lý khi Token hết hạn (Lỗi 401). Nó sẽ gọi API refresh token, lưu token mới và thử lại request cũ mà không làm gián đoạn trải nghiệm người dùng.
-
-### 2. `ui` (Giao diện người dùng)
-Chứa các Activity và Adapter hiển thị màn hình.
-*   **`BaseActivity.kt`**: Lớp cha của tất cả Activity. Xử lý các sự kiện chung như **Session Expired** (khi phiên đăng nhập hết hạn hẳn thì tự động đá về màn hình đăng nhập).
-*   **`auth/LoginActivity.kt`**: Màn hình đăng nhập.
-*   **`keys/`**:
-    *   `MainActivity.kt`: Màn hình chính, hiển thị danh sách Key. Hỗ trợ "kéo để tải lại" (SwipeRefresh) và tìm kiếm.
-    *   `CreateKeyActivity.kt`: Màn hình tạo Key mới.
-    *   `KeyDetailActivity.kt`: Màn hình chi tiết Key (Sửa, Xóa, Reset HWID).
-    *   `KeyAdapter.kt`: Adapter cho RecyclerView để hiển thị danh sách Key.
-*   **`profile/ProfileActivity.kt`**: Màn hình thông tin người dùng (Số dư, cấp bậc).
-
-### 3. `models` (Mô hình dữ liệu)
-Chứa các class POJO/Data Class đại diện cho dữ liệu từ API.
-*   **`User.kt`**: Thông tin người dùng.
-*   **`Key.kt`**: Thông tin license key.
-*   **`ApiResponse.kt`**: Cấu trúc phản hồi chuẩn từ server.
-*   *Lưu ý:* Các field được đánh dấu `@SerializedName` để đảm bảo không bị lỗi khi build Release (do R8/ProGuard đổi tên biến).
-
-### 4. `utils` (Tiện ích)
-*   **`SessionManager.kt`**: Quản lý lưu trữ cục bộ (Token, Refresh Token, Username, Balance) sử dụng `SharedPreferences`.
+- **Language**: Kotlin
+- **UI**: XML Layouts, Material Design 3 (Rosé Pine Theme)
+- **Networking**: Retrofit 2, OkHttp 3
+- **Data Processing**: Gson (JSON Parsing)
+- **Asynchronous**: Kotlin Coroutines
+- **Storage**: SharedPreferences (Session Management)
+- **Architecture**: MVVM-like (Activity + Repository pattern simplification), BaseActivity architecture.
 
 ---
 
-## ⚙️ Cơ chế hoạt động chính
+## 📂 Source Code Organization (`app/src/main/java/com/panel/keymanager`)
 
-### 1. Xác thực & Token (Authentication)
-*   Khi đăng nhập thành công, Server trả về `AccessToken` và `RefreshToken`.
-*   `RetrofitClient` sẽ tự động đính kèm `AccessToken` vào Header `Authorization: Bearer ...` của mọi request.
-*   **Tự động làm mới (Auto Refresh)**: Nếu API trả về **401 Unauthorized**, `TokenAuthenticator` sẽ chặn request đó lại, dùng `RefreshToken` để xin cấp lại `AccessToken` mới, sau đó thực hiện lại request ban đầu. Người dùng không cần đăng nhập lại.
+The source code is organized by functional packages for easy maintenance and scalability:
 
-### 2. Giao diện & Theme
-*   Ứng dụng sử dụng theme **Rosé Pine** (Tông màu tối, tím/hồng dịu mắt).
-*   Hỗ trợ **Dark Mode** hoàn toàn.
-*   Các file cấu hình màu sắc nằm trong `res/values/colors.xml` và `res/values-night/colors.xml`.
+### 1. `api` (Networking)
 
-### 3. Xử lý lỗi (Error Handling)
-*   Tất cả các lỗi mạng, lỗi server đều được bắt (try-catch) và hiển thị thông báo Toast rõ ràng cho người dùng.
-*   Nếu Refresh Token cũng hết hạn (hoặc bị thu hồi), ứng dụng sẽ tự động chuyển hướng về màn hình Đăng nhập (thông qua cơ chế EventBus đơn giản trong `SessionManager` và `BaseActivity`).
+Contains classes related to making API calls to the server.
+
+- **`ApiService.kt`**: Interface defining API endpoints such as `/login`, `/keys`, `/keys/generate`, etc.
+- **`RetrofitClient.kt`**: Singleton for initializing Retrofit. Configures `OkHttpClient` with Interceptors (to add Authorization Header) and `TokenAuthenticator` (to automatically refresh tokens).
+- **`TokenAuthenticator.kt`**: Mechanism to automatically handle Token expiration (401 Error). It calls the refresh token API, saves the new token, and retries the original request without interrupting the user experience.
+
+### 2. `ui` (User Interface)
+
+Contains Activities and Adapters for displaying screens.
+
+- **`BaseActivity.kt`**: Parent class for all Activities. Handles common events like **Session Expired** (automatically kicks to login screen when the session fully expires).
+- **`auth/LoginActivity.kt`**: Login screen.
+- **`keys/`**:
+  - `MainActivity.kt`: Main screen, displaying the list of Keys. Supports "Swipe to Refresh" and search.
+  - `CreateKeyActivity.kt`: Screen for creating new Keys.
+  - `KeyDetailActivity.kt`: Key detail screen (Edit, Delete, Reset HWID).
+  - `KeyAdapter.kt`: Adapter for RecyclerView to display the list of Keys.
+- **`profile/ProfileActivity.kt`**: User profile screen (Balance, Rank).
+
+### 3. `models` (Data Models)
+
+Contains POJO/Data Classes representing data from the API.
+
+- **`User.kt`**: User information.
+- **`Key.kt`**: License key information.
+- **`ApiResponse.kt`**: Standard response structure from the server.
+- _Note:_ Fields are marked with `@SerializedName` to ensure no errors during Release build (due to R8/ProGuard renaming variables).
+
+### 4. `utils` (Utilities)
+
+- **`SessionManager.kt`**: Manages local storage (Token, Refresh Token, Username, Balance) using `SharedPreferences`.
 
 ---
 
-## 🚀 Hướng dẫn Build (Cài đặt)
+## ⚙️ Core Mechanisms
 
-### Yêu cầu
-*   JDK 17
-*   Android SDK (API Level 34/35)
+### 1. Authentication & Token
 
-### Lệnh Build
-Để tạo file APK cài đặt (Release):
+- Upon successful login, the Server returns an `AccessToken` and a `RefreshToken`.
+- `RetrofitClient` automatically attaches the `AccessToken` to the `Authorization: Bearer ...` Header of every request.
+- **Auto Refresh**: If the API returns **401 Unauthorized**, `TokenAuthenticator` intercepts the request, uses the `RefreshToken` to request a new `AccessToken`, and then retries the original request. The user does not need to log in again.
 
-```bash
-# Tại thư mục android-app
-./gradlew clean assembleRelease
-```
+### 2. UI & Theme
 
-File APK sau khi build sẽ nằm tại: `app/build/outputs/apk/release/app-release-unsigned.apk` (hoặc signed nếu đã cấu hình key).
+- The application uses the **Rosé Pine** theme (Dark tone, soothing purple/pink).
+- Fully supports **Dark Mode**.
+- Color configuration files are located in `res/values/colors.xml` and `res/values-night/colors.xml`.
 
-### Chạy máy ảo/Debug
+### 3. Error Handling
+
+- All network and server errors are caught (try-catch) and displayed as clear Toast messages to the user.
+- If the Refresh Token also expires (or is revoked), the application automatically redirects to the Login screen (via a simple EventBus mechanism in `SessionManager` and `BaseActivity`).
+
+---
+
+## 🚀 Build & Installation Guide
+
+### System Requirements
+
+- **JDK 17** or higher
+- **Android SDK** (API Level 28-35)
+- **Android Studio** (recommended) or Gradle CLI
+
+### Step 1: Configure `local.properties`
+
+1. Copy the example file:
+
+   ```bash
+   cp local.properties.example local.properties
+   ```
+
+2. Open `local.properties` and fill in the information:
+
+   ```properties
+   # Keystore password (for signing release APK)
+   KEYSTORE_PASSWORD=your_actual_password
+   KEY_PASSWORD=your_actual_password
+
+   # Panel API Server URL (REQUIRED)
+   PANEL_URL=https://panel.example.com/
+   ```
+
+   **Note:**
+
+   - `PANEL_URL` is required - the app will not build without it.
+
+### Step 2: Prepare Keystore (Release Build only)
+
+If you want to build a signed Release APK:
+
+- Create a keystore (if you don't have one):
+  ```bash
+  keytool -genkey -v -keystore keystore.jks -keyalg RSA \
+    -keysize 2048 -validity 10000 -alias keymanager
+  ```
+
+### Step 3: Build
+
+#### Build Debug
+
 ```bash
 ./gradlew assembleDebug
 ```
+
+Output: `app/build/outputs/apk/debug/app-debug.apk`
+
+#### Build Release
+
+```bash
+./gradlew clean assembleRelease
+```
+
+Output: `app/build/outputs/apk/release/app-release.apk`

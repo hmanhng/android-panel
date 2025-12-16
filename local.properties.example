@@ -1,0 +1,20 @@
+# ========================================
+# local.properties - Example Configuration
+# ========================================
+# Copy this file to `local.properties` and fill in your actual values
+# DO NOT commit local.properties to version control
+
+# ========================================
+# Signing Configuration (for Release Build)
+# ========================================
+# Password for the keystore file (keystore.jks)
+KEYSTORE_PASSWORD=your_keystore_password_here
+
+# Password for the key alias inside the keystore
+KEY_PASSWORD=your_key_password_here
+
+# ========================================
+# Panel URL Configuration (REQUIRED)
+# ========================================
+# The base URL of your Panel API server
+PANEL_URL=https://panel.example.com/

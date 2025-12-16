@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, ... }:
 
 with pkgs;
 
@@ -29,10 +29,15 @@ devshell.mkShell {
       name = "JAVA_HOME";
       value = jdk.home;
     }
+    {
+      name = "GRADLE_USER_HOME";
+      value = "/home/hmanhng/.local/share/gradle";
+    }
   ];
   packages = [
     android-sdk
     gradle
     jdk
-  ] ++ conditionalPackages;
+  ]
+  ++ conditionalPackages;
 }

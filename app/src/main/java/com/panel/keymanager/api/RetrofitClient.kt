@@ -48,7 +48,7 @@ object RetrofitClient {
     private val noAuthOkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(60, TimeUnit.SECONDS)  // Increased timeout for refresh to handle server load
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
@@ -73,7 +73,7 @@ object RetrofitClient {
         .addInterceptor(loggingInterceptor)
         .authenticator(authenticator)
         .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(60, TimeUnit.SECONDS)  // Increased timeout to handle API delays
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
