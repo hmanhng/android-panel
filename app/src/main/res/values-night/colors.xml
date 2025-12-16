@@ -1,0 +1,11 @@
+<resources>
+    <!-- Custom Colors Overrides for Dark Mode - Rosé Pine -->
+    <color name="status_active">#9ccfd8</color> <!-- Foam -->
+    <color name="status_inactive">#6e6a86</color> <!-- Muted -->
+    <color name="delete_color">#eb6f92</color> <!-- Love -->
+    <color name="warning_color">#f6c177</color> <!-- Gold -->
+    <color name="money_color">#9ccfd8</color> <!-- Foam -->
+    
+    <color name="tag_background">#31748f</color> <!-- Pine -->
+    <color name="code_background">#26233a</color> <!-- Overlay -->
+</resources>

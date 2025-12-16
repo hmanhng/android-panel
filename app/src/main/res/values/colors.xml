@@ -1,0 +1,76 @@
+<resources>
+    <!-- Rosé Pine Palette -->
+    <color name="rp_base">#191724</color>
+    <color name="rp_surface">#1f1d2e</color>
+    <color name="rp_overlay">#26233a</color>
+    <color name="rp_muted">#6e6a86</color>
+    <color name="rp_subtle">#908caa</color>
+    <color name="rp_text">#e0def4</color>
+    <color name="rp_love">#eb6f92</color>
+    <color name="rp_gold">#f6c177</color>
+    <color name="rp_rose">#ebbcba</color>
+    <color name="rp_pine">#31748f</color>
+    <color name="rp_foam">#9ccfd8</color>
+    <color name="rp_iris">#c4a7e7</color>
+    <color name="rp_highlight_low">#21202e</color>
+    <color name="rp_highlight_med">#403d52</color>
+    <color name="rp_highlight_high">#524f67</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- App Colors (Mapped to Rosé Pine) -->
+    <!-- Primary Brand Colors -->
+    <color name="primary">#c4a7e7</color> <!-- Iris -->
+    <color name="primary_variant">#ebbcba</color> <!-- Rose -->
+    <color name="secondary">#31748f</color> <!-- Pine -->
+    <color name="secondary_variant">#26233a</color> <!-- Overlay -->
+    
+    <!-- Backgrounds & Surfaces -->
+    <color name="background">#191724</color> <!-- Base -->
+    <color name="surface">#191724</color> <!-- Base (User requested 191724) -->
+    <color name="surface_variant">#26233a</color> <!-- Overlay (For Cards) -->
+    
+    <!-- Text / Content -->
+    <color name="on_primary">#191724</color> <!-- Base -->
+    <color name="on_secondary">#e0def4</color> <!-- Text -->
+    <color name="on_background">#e0def4</color> <!-- Text -->
+    <color name="on_surface">#e0def4</color> <!-- Text -->
+    <color name="on_surface_variant">#e0def4</color> <!-- Text -->
+    
+    <!-- Status & Alerts -->
+    <color name="error">#eb6f92</color> <!-- Love -->
+    <color name="error_container">#eb6f92</color> <!-- Love -->
+    <color name="on_error">#191724</color> <!-- Base -->
+    
+    <!-- Custom Functional Colors -->
+    <color name="status_active">#9ccfd8</color> <!-- Foam -->
+    <color name="status_inactive">#6e6a86</color> <!-- Muted -->
+    <color name="delete_color">#eb6f92</color> <!-- Love -->
+    <color name="warning_color">#f6c177</color> <!-- Gold -->
+    <color name="money_color">#9ccfd8</color> <!-- Foam (or Gold #f6c177) -->
+    <color name="tag_background">#31748f</color> <!-- Pine -->
+    <color name="code_background">#26233a</color> <!-- Overlay -->
+
+    <!-- Legacy / Compatibility (Keep if needed) -->
+    <color name="purple_200">#c4a7e7</color>
+    <color name="purple_500">#c4a7e7</color>
+    <color name="purple_700">#c4a7e7</color>
+    <color name="teal_200">#9ccfd8</color>
+    <color name="teal_700">#31748f</color>
+    
+    <!-- Dark Mode Specific (Can be same as above since RP is dark) -->
+    <color name="primary_dark">#c4a7e7</color>
+    <color name="on_primary_dark">#191724</color>
+    <color name="primary_container_dark">#26233a</color> <!-- Overlay -->
+    <color name="on_primary_container_dark">#c4a7e7</color>
+    <color name="secondary_dark">#31748f</color>
+    <color name="on_secondary_dark">#e0def4</color>
+    <color name="secondary_container_dark">#26233a</color>
+    <color name="on_secondary_container_dark">#e0def4</color>
+    <color name="background_dark">#191724</color>
+    <color name="on_background_dark">#e0def4</color>
+    <color name="surface_dark">#191724</color>
+    <color name="on_surface_dark">#e0def4</color>
+    <color name="error_dark">#eb6f92</color>
+</resources>
