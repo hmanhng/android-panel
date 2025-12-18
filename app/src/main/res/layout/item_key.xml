@@ -216,6 +216,22 @@
                 android:gravity="end">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnResetDevices"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Reset"
+                    android:textSize="11sp"
+                    android:textAllCaps="false"
+                    app:strokeColor="@color/warning_color"
+                    android:textColor="@color/warning_color"
+                    app:icon="@drawable/ic_devices"
+                    app:iconSize="14dp"
+                    app:iconTint="@color/warning_color"
+                    app:cornerRadius="18dp" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnReset"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
@@ -247,20 +263,6 @@
                     app:iconTint="@color/delete_color"
                     app:cornerRadius="18dp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnEdit"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:text="Edit"
-                    android:textSize="11sp"
-                    android:textAllCaps="false"
-                    android:textColor="@color/tag_background"
-                    app:strokeColor="@color/tag_background"
-                    app:icon="@drawable/ic_edit"
-                    app:iconSize="14dp"
-                    app:iconTint="@color/tag_background"
-                    app:cornerRadius="18dp" />
 
             </LinearLayout>
 

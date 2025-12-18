@@ -77,6 +77,7 @@ class MainActivity : BaseActivity() {
             username = sessionManager.getUsername(),
             onItemClick = { key -> showKeyDetail(key) },
             onResetClick = { key -> confirmResetKey(key) },
+            onResetDevicesClick = { key -> confirmResetDevicesKey(key) },
             onDeleteClick = { key -> confirmDeleteKey(key) },
             onCopyClick = { key -> copyKeyToClipboard(key) }
         )
@@ -271,6 +272,15 @@ class MainActivity : BaseActivity() {
         startActivity(intent)
     }
 
+    private fun confirmResetDevicesKey(key: Key) {
+        AlertDialog.Builder(this)
+            .setTitle("Reset Devices")
+            .setMessage("Are you sure you want to reset devices for key '${key.userKey}'?\nThis will remove all registered devices but keep the expiration date.")
+            .setPositiveButton("Reset Devices") { _, _ -> resetDevicesKey(key) }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
     private fun confirmResetKey(key: Key) {
         AlertDialog.Builder(this)
             .setTitle("Reset Key")
@@ -278,6 +288,30 @@ class MainActivity : BaseActivity() {
             .setPositiveButton("Reset") { _, _ -> resetKey(key) }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+
+    private fun resetDevicesKey(key: Key) {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.apiService.resetDevices(
+                    key.id,
+                    com.panel.keymanager.models.ResetKeyRequest(sessionManager.getUserId())
+                )
+
+                if (response.isSuccessful && response.body()?.status == "success") {
+                    Toast.makeText(this@MainActivity, "Key devices reset successfully", Toast.LENGTH_SHORT).show()
+                    loadKeys()
+                } else {
+                    Toast.makeText(
+                        this@MainActivity,
+                        response.body()?.message ?: "Failed to reset devices",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@MainActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun resetKey(key: Key) {

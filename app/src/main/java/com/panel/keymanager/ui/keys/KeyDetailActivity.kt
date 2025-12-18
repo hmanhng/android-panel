@@ -158,6 +158,10 @@ class KeyDetailActivity : BaseActivity() {
             saveChanges()
         }
 
+        binding.btnResetDevices.setOnClickListener {
+            confirmResetDevices()
+        }
+
         binding.btnReset.setOnClickListener {
             confirmReset()
         }
@@ -238,6 +242,15 @@ class KeyDetailActivity : BaseActivity() {
         }
     }
 
+    private fun confirmResetDevices() {
+        AlertDialog.Builder(this)
+            .setTitle("Reset Devices")
+            .setMessage("Are you sure you want to reset devices for this key?\nThis will remove all registered devices but keep the expiration date.")
+            .setPositiveButton("Reset Devices") { _, _ -> resetDevices() }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
     private fun confirmReset() {
         AlertDialog.Builder(this)
             .setTitle("Reset Key")
@@ -245,6 +258,42 @@ class KeyDetailActivity : BaseActivity() {
             .setPositiveButton("Reset") { _, _ -> resetKey() }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+
+    private fun resetDevices() {
+        showLoading(true)
+
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.apiService.resetDevices(
+                    keyId,
+                    ResetKeyRequest(sessionManager.getUserId())
+                )
+
+                if (response.isSuccessful && response.body()?.status == "success") {
+                    Toast.makeText(
+                        this@KeyDetailActivity,
+                        "Key devices reset successfully",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    loadKeyDetails()
+                } else {
+                    Toast.makeText(
+                        this@KeyDetailActivity,
+                        response.body()?.message ?: "Failed to reset devices",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(
+                    this@KeyDetailActivity,
+                    "Error: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } finally {
+                showLoading(false)
+            }
+        }
     }
 
     private fun resetKey() {
@@ -339,6 +388,7 @@ class KeyDetailActivity : BaseActivity() {
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         binding.btnSave.isEnabled = !isLoading
+        binding.btnResetDevices.isEnabled = !isLoading
         binding.btnReset.isEnabled = !isLoading
         binding.btnDelete.isEnabled = !isLoading
     }

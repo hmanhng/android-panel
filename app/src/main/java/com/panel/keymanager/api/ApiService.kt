@@ -67,6 +67,12 @@ interface ApiService {
         @Body request: ResetKeyRequest
     ): Response<ApiResponse<Any>>
 
+    @POST("api/keys/{id}/resetDevices")
+    suspend fun resetDevices(
+        @Path("id") keyId: Int,
+        @Body request: ResetKeyRequest
+    ): Response<ApiResponse<Any>>
+
     // Config
     @GET("api/durations")
     suspend fun getDurations(): Response<ApiResponse<List<Duration>>>

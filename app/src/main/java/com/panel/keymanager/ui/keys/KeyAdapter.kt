@@ -13,6 +13,7 @@ class KeyAdapter(
     private var username: String,
     private val onItemClick: (Key) -> Unit,
     private val onResetClick: (Key) -> Unit,
+    private val onResetDevicesClick: (Key) -> Unit,
     private val onDeleteClick: (Key) -> Unit,
     private val onCopyClick: (Key) -> Unit
 ) : RecyclerView.Adapter<KeyAdapter.KeyViewHolder>() {
@@ -61,9 +62,9 @@ class KeyAdapter(
 
                     // Click listeners
                     root.setOnClickListener { onItemClick(key) }
+                    btnResetDevices.setOnClickListener { onResetDevicesClick(key) }
                     btnReset.setOnClickListener { onResetClick(key) }
                     btnDelete.setOnClickListener { onDeleteClick(key) }
-                    btnEdit.setOnClickListener { onItemClick(key) }
                     btnCopy.setOnClickListener { onCopyClick(key) }
                 }
             } catch (e: Exception) {

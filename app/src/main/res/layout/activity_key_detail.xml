@@ -272,12 +272,28 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnResetDevices"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="4dp"
+                    android:text="Reset"
+                    android:textAllCaps="false"
+                    app:strokeColor="@color/warning_color"
+                    android:textColor="@color/warning_color"
+                    app:icon="@drawable/ic_devices"
+                    app:iconTint="@color/warning_color"
+                    app:cornerRadius="24dp" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnReset"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:text="Reset"
                     android:textAllCaps="false"
                     app:strokeColor="@color/warning_color"
@@ -292,7 +308,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:text="Delete"
                     android:textAllCaps="false"
                     android:textColor="@color/delete_color"
